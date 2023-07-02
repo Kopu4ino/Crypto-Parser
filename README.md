@@ -10,8 +10,7 @@ This project requires Python 3.7+ and the requests library. You can install requ
 The config.py file should contain your API credentials (API_KEY and API_SECRET) obtained from your Yobit account. It should look something like this:
 
 <code>API_KEY = 'your-api-key'
-
-API_SECRET = 'your-api-secret' </code>
+API_SECRET = 'your-api-secret'</code>
 
 # Usage
 The script contains several functions that correspond to different actions that can be performed through the Yobit API. Here's a brief description of each function:
@@ -39,12 +38,6 @@ To use any of these functions, simply import them into your Python script and ca
 from yobit_api_wrapper import get_ticker
 print(get_ticker("btc", "usd"))
 </code>
-
-# Contribution
-Please feel free to fork this repository and submit pull requests. All contributions are welcome.
-
-# License
-This project is licensed under the MIT License.
 
 # Disclaimer
 This script is provided as is, without any guarantees or liability. Trading cryptocurrency involves risk and could result in the loss of capital. You should use this script with caution, and at your own risk.
