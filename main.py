@@ -9,9 +9,6 @@ import hashlib
 #  PUBLIC API METHODS
 def get_info():
     response = requests.get(url="https://yobit.net/api/3/info")
-
-    # with open("info.txt", "w") as file:
-    #     file.write(response.text)
     return response.text
 
 
@@ -25,9 +22,6 @@ def get_ticker(coin1="btc", coin2="usd"):
 # получаем 150 последних ордеров на покупку и продажу
 def get_last_order(coin1="btc", coin2="usd", limit=150):
     response = requests.get(url=f"https://yobit.net/api/3/depth/{coin1}_{coin2}?limit={limit}&ignore_invalid=1")
-
-    with open("depth.txt", "w") as file:
-        file.write(response.text)
 
     # сумма всех выставленных на закуп ордеров
     bids = response.json()[f"{coin1}_usd"]["bids"]
@@ -44,9 +38,6 @@ def get_last_order(coin1="btc", coin2="usd", limit=150):
 # получаем 150 последних совершенных сделок
 def get_trades(coin1="btc", coin2="usd", limit=150):
     response = requests.get(url=f"https://yobit.net/api/3/trades/{coin1}_{coin2}?limit={limit}&ignore_invalid=1")
-
-    with open("trades.txt", "w") as file:
-        file.write(response.text)
 
     total_trade_ask = 0
     total_trade_bid = 0
@@ -67,14 +58,11 @@ def get_user_info():
     values = dict()
     values["method"] = "getInfo"
     values["nonce"] = str(int(time.time()))
-    # print(values)
 
     body = urlencode(values).encode("utf-8")
-    # print(body) --> methods=getInfo&nonce=1651496290
 
     # Создаем подпись для запроса
     sign = hmac.new(API_SECRET.encode("utf-8"), body, hashlib.sha512).hexdigest()
-    # print(sign)
 
     headers = {
         "key": API_KEY,
@@ -107,7 +95,6 @@ def get_deposit_adress(coin_name="btc"):
 def buy_coin(coin1="btc", coin2="usdtbep20", rate=None, amount=0):
     ticker = get_ticker(coin1, coin2)
     sell_price = ticker[f"{coin1}_{coin2}"]["sell"] if rate is None else rate
-    # print(ticker)
 
     values = dict()
     values["method"] = "Trade"
@@ -117,11 +104,8 @@ def buy_coin(coin1="btc", coin2="usdtbep20", rate=None, amount=0):
     values["rate"] = sell_price
     values["amount"] = amount / sell_price
 
-    # return values
-
     body = urlencode(values).encode("utf-8")
     sign = hmac.new(API_SECRET.encode("utf-8"), body, hashlib.sha512).hexdigest()
-    # print(body)
 
     headers = {
         "key": API_KEY,
@@ -135,7 +119,6 @@ def buy_coin(coin1="btc", coin2="usdtbep20", rate=None, amount=0):
 def sell_coin(coin1="usdt", coin2="rur", rate=None, amount=0):
     ticker = get_ticker(coin1, coin2)
     buy_price = ticker[f"{coin1}_{coin2}"]["buy"] if rate is None else rate
-    # print(ticker)
 
     values = dict()
     values["method"] = "Trade"
@@ -145,11 +128,8 @@ def sell_coin(coin1="usdt", coin2="rur", rate=None, amount=0):
     values["rate"] = buy_price
     values["amount"] = amount
 
-    # return values
-
     body = urlencode(values).encode("utf-8")
     sign = hmac.new(API_SECRET.encode("utf-8"), body, hashlib.sha512).hexdigest()
-    # print(body)
 
     headers = {
         "key": API_KEY,
@@ -168,7 +148,6 @@ def cancel_order(order_id):
 
     body = urlencode(values).encode("utf-8")
     sign = hmac.new(API_SECRET.encode("utf-8"), body, hashlib.sha512).hexdigest()
-    # print(body)
 
     headers = {
         "key": API_KEY,
@@ -192,7 +171,6 @@ def main():
     # print(get_ticker(coin1="eth", coin2="usdt"))
     # print(buy_coin(rate=1000))
     # print(buy_coin(coin1="btc", coin2="usdtbep20", rate=1, amount=1))
-    # print(cancel_order(1104373728168474))
     # print(sell_coin(coin1="btc", coin2="usdt", rate=35296, amount=0.0001))
     # print(get_ticker(coin1="btc", coin2="usdt"))
 
